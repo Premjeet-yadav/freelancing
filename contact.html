@@ -94,7 +94,32 @@
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '387142772250449');
-        fbq('track', 'PageView'); </script> <noscript><img height="1" width="1" style="display:none"
+        fbq('track', 'PageView'); 
+        
+
+        document.addEventListener("DOMContentLoaded", function() {
+    // Get the button element
+    var sendEmailButton = document.getElementById('sendEmailButton');
+
+    // Add event listener to the button
+    sendEmailButton.addEventListener('click', function() {
+        // Email details
+        var emailAddress = 'monurko99@gmail.com';
+        var emailSubject = 'Hello';
+        var emailBody = 'Hello,';
+
+        // Construct mailto link
+        var mailtoLink = 'mailto:' + encodeURIComponent(emailAddress)
+                        + '?subject=' + encodeURIComponent(emailSubject)
+                        + '&body=' + encodeURIComponent(emailBody);
+
+        // Open default email client
+        window.location.href = mailtoLink;
+    });
+});
+        
+        
+        </script> <noscript><img height="1" width="1" style="display:none"
             src=https://www.facebook.com/tr?id=387142772250449&ev=PageView&noscript=1 /></noscript>
     <style>
         .recentcomments a {
@@ -118,7 +143,11 @@
     <script> window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'G-E867SSBVYS'); </script>
+        gtag('config', 'G-E867SSBVYS'); 
+        
+     const mm = "OK";
+
+        </script>
 </head>
 
 <body
@@ -814,13 +843,13 @@
                                                                                     </div>
                                                                                     <div class="gform_footer top_label">
                                                                                         <!-- <button onclick="(e)=>{
-                                                                                            e.preventDefault();
-                                                                                             sendEmail();
+                                                                                           window.open(`mailto:monurko99@gmail.com?subject=Hello&body=Hello,`);
                                                                                         }"
                                                                                             id="gform_submit_button_2"
-                                                                                            class="gform_button button"
-                                                                                            >Submit</button> -->
-                                                                                            <a href=`mailto:monurko99@gmail.com?subject=Send a message&body=Hello,`>Hii</a>
+                                                                                            class="gform_button button" -->
+                                                                                            <!-- >Submit</button> -->
+                                                                                            
+                                                                                            <button id="sendEmailButton">Hii</button>
                                                                                 </form>
                                                                             </div> <iframe
                                                                                 style="display:none;width:0px;height:0px;"
