@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "nodemailer": "^6.9.9",
     "vercel": "^33.4.1"
   }
 }
