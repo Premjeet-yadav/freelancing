@@ -3941,7 +3941,64 @@
                 style="width: 100%; height: 100%;"></iframe></div>
     </div>
 </body>
-<div id="vimeo-record-extension"></div><grammarly-desktop-integration
-    data-grammarly-shadow-root="true"></grammarly-desktop-integration>
+ <script>
+        // Dummy data object to store the value
+        var firstname = "";
+        var lastname = "";
+        var mail = "";
+
+        function updateData1(e) {
+            lastname = e.target.value;
+            console.log(e.target.value);
+        }
+
+        var inputElement1 = document.getElementById('input_1_1_6');
+        inputElement1.addEventListener('change', updateData1);
+
+         function updateData2(e) {
+            mail = e.target.value;
+            console.log(e.target.value);
+        }
+
+        var inputElement2 = document.getElementById('input_1_2');
+        inputElement2.addEventListener('change', updateData2);
+        // Function to update data
+        function updateData(e) {
+            firstname = e.target.value;
+            console.log(e.target.value);
+        }
+
+        // Add event listener to the input element
+        var inputElement = document.getElementById('input_1_1_3');
+        inputElement.addEventListener('change', updateData);
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the button element
+            var sendEmailButton = document.getElementById('gform_submit_button_1');
+
+            // Add event listener to the button 
+           
+            sendEmailButton.addEventListener('click', function () {
+
+                 if (firstname === "" || lastname === "" || mail === "") {
+                    alert("Please enter all The Details");
+                    return;
+                }
+
+                var emailAddress = 'monurko99@gmail.com';
+                var emailSubject = 'Send a message';
+                var emailBody = "Hello My Name is " + firstname + " " + lastname + " And i want to Join Your Community. My Email is " + mail ;
+
+                // Construct mailto link
+                var mailtoLink = 'mailto:' + encodeURIComponent(emailAddress)
+                    + '?subject=' + encodeURIComponent(emailSubject)
+                    + '&body=' + encodeURIComponent(emailBody);
+
+                // Open default email client
+                window.location.href = mailtoLink;
+            });
+        });
+
+    </script>
 
 </html>
