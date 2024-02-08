@@ -1,11 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Upload Image to Cloudinary</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 50px auto;
+  padding: 20px;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: calc(100% - 30px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #777;
+}
+
+.input-group input[type="file"] {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.input-group input[type="file"] + label {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+}
+
+.input-group input[type="file"] + label:hover {
+  background-color: #0056b3;
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+#uploadedImageContainer {
+  margin-top: 20px;
+}
+
+#uploadedImageContainer img {
+  max-width: 100%;
+  max-height: 300px;
+  display: block;
+  margin: 0 auto;
+}
+
+        .container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 600px;
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-top: 10px;
+}
+
+#uploadedImageContainer {
+  margin-top: 20px;
+}
+
+#uploadedImageContainer img {
+  max-width: 100%;
+  max-height: 300px;
+}
+
+    </style>
 </head>
+
 <body>
-    <h1>Only For Admin</h1>
+    <div class="container">
+        <h2>Upload Image to Cloudinary</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="fileInput">
+            <!-- <input type="text" id="priceInput" placeholder="Enter price"> -->
+            <!-- <input type="text" id="descriptionInput" placeholder="Enter description"> -->
+            <!-- <input type="text" id="nameInput" placeholder="Enter name"> -->
+            <input type="submit" value="Submit">
+        </form>
+        <button id="uploadBtn">Upload</button>
+        <div id="uploadedImageContainer"></div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+                const fileInput = document.getElementById("fileInput");
+                const priceInput = document.getElementById("priceInput");
+                const descriptionInput = document.getElementById("descriptionInput");
+                const nameInput = document.getElementById("nameInput");
+                const uploadForm = document.getElementById("uploadForm");
+                const uploadBtn = document.getElementById("uploadBtn");
+                const uploadedImageContainer = document.getElementById("uploadedImageContainer");
+
+                let image = null;
+                let imageUrl = '';
+                let data = {};
+
+                function handleImageChange(e) {
+                    const file = e.target.files[0];
+                    image = file;
+                    console.log('all set');
+                }
+
+                function handleUpload() {
+                    if (!image) {
+                        console.log("Please select an image");
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append('file', image);
+
+                    fetch('http://localhost:8080/upload', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            imageUrl = data.url;
+                            data["imgurl"] = data.url;
+                            console.log("Image uploaded successfully:", data.url);
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            console.error("Error uploading image:", error);
+                        });
+                }
+
+                function handleData(e) {
+                    data[e.target.name] = e.target.value;
+                    console.log(data);
+                }
+
+                async function uploadImage(e) {
+                    e.preventDefault();
+                    try {
+                        const result = await fetch(`http://localhost:8080/addDetail`, {
+                            method: "POST",
+                            body: JSON.stringify(data),
+                            headers: {
+                                'Content-Type': "application/json"
+                            }
+                        });
+                        const ans = await result.json();
+                        console.log(ans);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+
+                fileInput.addEventListener("change", handleImageChange);
+                uploadBtn.addEventListener("click", handleUpload);
+                uploadForm.addEventListener("submit", uploadImage);
+                priceInput.addEventListener("input", handleData);
+                descriptionInput.addEventListener("input", handleData);
+                nameInput.addEventListener("input", handleData);
+            });
+
+    </script>
 </body>
+
 </html>
